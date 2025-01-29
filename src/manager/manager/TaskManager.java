@@ -21,12 +21,10 @@ public class TaskManager {
     }
 
     public void deleteTaskById(int taskId) {
-
         tasks.remove(taskId);
     }
 
     public Task getTask(int taskId) {
-
         return tasks.get(taskId);
     }
 
@@ -34,11 +32,9 @@ public class TaskManager {
         return new ArrayList<>(tasks.values());
     }
 
-    public void deleteAllTasks() { // удаление всех задач
+    public void deleteAllTasks() {
         tasks.clear();
     }
-
-
 
 
     public void addEpic(Epic epic) {
@@ -48,9 +44,7 @@ public class TaskManager {
     }
 
     public void deleteEpicById(int epicId) {
-
         Epic epic = epics.remove(epicId);
-
         if (epic != null) {
             for (int idSubTasks : epic.getSubTasksIdList()) {
                 subTasks.remove(idSubTasks);
@@ -72,9 +66,7 @@ public class TaskManager {
     }
 
 
-
     public void addSubTask(SubTask subTask) {
-
         int id = createId();
         subTask.setId(id);
         subTasks.put(id, subTask);
@@ -86,7 +78,6 @@ public class TaskManager {
     }
 
     public void deleteSubTaskById(int subTaskId) {
-
         SubTask subTask = subTasks.remove(subTaskId);
         if (subTask != null) {
             Epic epic = epics.get(subTask.getEpicId());
@@ -98,7 +89,6 @@ public class TaskManager {
     }
 
     public SubTask getSubTaskById(int id) {
-
         return subTasks.get(id);
     }
 
@@ -119,10 +109,8 @@ public class TaskManager {
             epic.setStatus(TaskStatus.NEW);
             return;
         }
-
         boolean allDone = true;
         boolean inProgress = false;
-
         for (int subTaskId : subTasksIdList) {
             TaskStatus status = subTasks.get(subTaskId).getStatus();
             if (status != TaskStatus.DONE) {
@@ -130,9 +118,9 @@ public class TaskManager {
             }
             if (status == TaskStatus.IN_PROGRESS) {
                 inProgress = true;
+                break;
             }
         }
-
         if (allDone) {
             epic.setStatus(TaskStatus.DONE);
         } else if (inProgress) {
