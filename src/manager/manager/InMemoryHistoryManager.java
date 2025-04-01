@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    final private CreatedLinkedList history = new CreatedLinkedList();
+    private final CreatedLinkedList history = new CreatedLinkedList();
 
     @Override
     public void addHistory(Task task) {
@@ -29,7 +29,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         private Node<Task> head;
         private Node<Task> tail;
 
-        final private Map<Integer, Node<Task>> idNode = new HashMap<>();
+        private final Map<Integer, Node<Task>> idNode = new HashMap<>();
 
         public void linkLast(Task task) {
             if (idNode.containsKey(task.getId())) {
