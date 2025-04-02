@@ -5,6 +5,7 @@ import manager.tasks.SubTask;
 import manager.tasks.Task;
 import manager.tasks.TaskStatus;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,44 +17,53 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskManagerTest {
     private TaskManager taskManager;
 
+    @BeforeEach
+    public void setUp() {
+        taskManager = Managers.getDefault();
+    }
+
     @Test
     public void addTask() {
         String title = "Приготовить обед";
         String description = "Нарезать продукты";
         Task task = new Task(title, description, TaskStatus.NEW);
+
         Task createdTask = taskManager.addTask(task);
 
-        Assertions.assertNotNull(createdTask.getId());
-        Assertions.assertEquals(createdTask.getStatus(), TaskStatus.NEW);
-        Assertions.assertEquals(createdTask.getDescription(), description);
-        Assertions.assertEquals(createdTask.getTitle(), title);
+        assertNotNull(createdTask.getId());
+        assertEquals(TaskStatus.NEW, createdTask.getStatus());
+        assertEquals(description, createdTask.getDescription());
+        assertEquals(title, createdTask.getTitle());
     }
 
     @Test
     void idTask() {
-        Task task1 = new Task("Таск 1", "Описание 1", TaskStatus.NEW);
-        Task task2 = new Task("Таск 2", "Описание 2", TaskStatus.DONE);
+        Task task1 = new Task("Task 1", "description 1", TaskStatus.NEW);
+        Task task2 = new Task("Task 2", "description 2", TaskStatus.DONE);
 
+        taskManager.addTask(task1);
         task2.setId(task1.getId());
+
         assertEquals(task1, task2);
     }
 
     @Test
     void epicsShouldBeEqualIfIdsEqual() {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Epic 1", "description 1");
         epic1.setId(1);
-        Epic epic2 = new Epic("Эпик 2", "Описание 2");
-        epic2.setId(2);
-        Assertions.assertEquals(epic1, epic2);
+        Epic epic2 = new Epic("Epic 2", "description 2");
+        epic2.setId(1);
+        assertEquals(epic1, epic2);
     }
 
     @Test
     void subTasksShouldBeEqualIfIdsEqual() {
-        SubTask subTask1 = new SubTask("Сабтаск 1", "Описание 1", 2, TaskStatus.NEW);
-        subTask1.setId(2);
-        SubTask subTask2 = new SubTask("Сабтаск 2", "Описание 2", 2, TaskStatus.DONE);
-        subTask2.setId(2);
-        Assertions.assertEquals(subTask1, subTask2);
+        SubTask subTask1 = new SubTask("SubTask 1", "description 1", 2, TaskStatus.NEW);
+        subTask1.setId(1);
+        SubTask subTask2 = new SubTask("SubTask 2", "description 2", 2, TaskStatus.DONE);
+        subTask2.setId(1);
+
+        assertEquals(subTask1, subTask2);
     }
 
     @Test
@@ -63,13 +73,20 @@ class TaskManagerTest {
     }
 
     @Test
+    void testHistoryManagersReturnInitialized() {
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        assertNotNull(historyManager);
+        assertTrue(historyManager instanceof InMemoryHistoryManager);
+    }
+
+    @Test
     void addDifferentTypes() {
-        Task task = new Task("Таск 1", "Описание 1", TaskStatus.NEW);
-        Epic epic = new Epic("Эпик 1", "Описание 1");
+        Task task = new Task("Task 1", "description 1", TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "description 1");
         taskManager.addTask(task);
         taskManager.addEpic(epic);
 
-        SubTask subTask = new SubTask("Сабтаск 1", "Описание 1", epic.getId(), TaskStatus.NEW);
+        SubTask subTask = new SubTask("SubTask 1", "description 1", epic.getId(), TaskStatus.NEW);
         taskManager.addSubTask(subTask);
 
         Task addedTask = taskManager.getTask(task.getId());
@@ -121,12 +138,13 @@ class TaskManagerTest {
     void taskShouldBeUnchangedInTaskManager() {
         Task initialTask = new Task("Задача 1", "Описание 1", TaskStatus.NEW);
         taskManager.addTask(initialTask);
+
         Task secondTask = taskManager.getTask(initialTask.getId());
 
-        Assertions.assertEquals(initialTask.getTitle(), secondTask.getTitle());
-        Assertions.assertEquals(initialTask.getDescription(), secondTask.getDescription());
-        Assertions.assertEquals(initialTask.getId(), secondTask.getId());
-        Assertions.assertEquals(initialTask.getStatus(), secondTask.getStatus());
+        assertEquals(initialTask.getTitle(), secondTask.getTitle());
+        assertEquals(initialTask.getDescription(), secondTask.getDescription());
+        assertEquals(initialTask.getId(), secondTask.getId());
+        assertEquals(initialTask.getStatus(), secondTask.getStatus());
     }
 
 }
