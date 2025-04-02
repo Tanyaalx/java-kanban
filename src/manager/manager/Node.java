@@ -1,14 +1,17 @@
 package manager.manager;
 
 public class Node<T> {
-    public T task;
-    public Node<T> next;
-    public Node<T> prev;
+    T data;
+    Node<T> next;
+    Node<T> prev;
 
-    public Node(Node<T> prev, T task, Node<T> next) {
-        this.task = task;
+    public Node(Node<T> prev, T data, Node<T> next) {
+        this.data = data;
         this.next = next;
         this.prev = prev;
+    }
 
+    public Node(T data) {
+        this.data = data;
     }
 }
