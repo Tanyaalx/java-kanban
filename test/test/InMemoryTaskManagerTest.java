@@ -4,7 +4,6 @@ import manager.tasks.Epic;
 import manager.tasks.SubTask;
 import manager.tasks.Task;
 import manager.tasks.TaskStatus;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskManagerTest {
+class InMemoryTaskManagerTest {
     private TaskManager taskManager;
 
     @BeforeEach
-    public void setUp() {
-        taskManager = Managers.getDefault();
+    public void init() {
+        taskManager = Managers.getDefaultManager();
     }
 
     @Test
@@ -91,7 +90,7 @@ class TaskManagerTest {
 
         Task addedTask = taskManager.getTask(task.getId());
         Epic addedEpic = taskManager.getEpic(epic.getId());
-        SubTask addedSubTask = taskManager.getSubTaskById(subTask.getEpicId());
+        SubTask addedSubTask = taskManager.getSubTaskById(subTask.getId());
 
         assertNotNull(addedTask);
         assertNotNull(addedEpic);

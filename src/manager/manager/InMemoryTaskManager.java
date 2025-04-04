@@ -31,8 +31,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(int taskId) {
-        historyManager.add(tasks.get(taskId));
-        return tasks.get(taskId);
+        Task task = tasks.get(taskId);
+        if (task != null) {
+            historyManager.add(task);
+        }
+        return task;
     }
 
     @Override
@@ -71,8 +74,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpic(int epicId) {
-        historyManager.add(epics.get(epicId));
-        return epics.get(epicId);
+        Epic epic = epics.get(epicId);
+        if (epic != null) {
+            historyManager.add(epic);
+        }
+        return epic;
     }
 
     @Override
@@ -118,9 +124,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubTask getSubTaskById(int id) {
-        historyManager.add(subTasks.get(id));
-        return subTasks.get(id);
+    public SubTask getSubTaskById(int subTaskId) {
+        SubTask subTask = subTasks.get(subTaskId);
+        if (subTask != null) {
+            historyManager.add(subTask);
+        }
+        return subTask;
     }
 
     @Override
@@ -144,6 +153,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         boolean allDone = true;
         boolean inProgress = false;
+
         for (int subTaskId : subTasksIdList) {
             TaskStatus status = subTasks.get(subTaskId).getStatus();
             if (status != TaskStatus.DONE) {
@@ -151,7 +161,6 @@ public class InMemoryTaskManager implements TaskManager {
             }
             if (status == TaskStatus.IN_PROGRESS) {
                 inProgress = true;
-                break;
             }
         }
         if (allDone) {
@@ -174,5 +183,4 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
     }
-
 }
