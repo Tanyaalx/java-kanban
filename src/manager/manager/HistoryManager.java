@@ -5,7 +5,10 @@ import manager.tasks.Task;
 import java.util.ArrayList;
 
 public interface HistoryManager {
-    void addHistory(Task task);
+
+    void add(Task task);
 
     ArrayList<Task> getHistory();
+
+    void remove(int id);
 }
