@@ -39,7 +39,7 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
-    void saveAndLoadMultipleTasks() throws IOException {
+    void saveAndLoadTasks() throws IOException {
         Task task1 = new Task("Таск 1", "Описание 1", TaskStatus.NEW);
         Task task2 = new Task("Таск 2", "Описание 2", TaskStatus.NEW);
         manager.addTask(task1);
@@ -54,6 +54,8 @@ class FileBackedTaskManagerTest {
 
         SubTask subTask1 = new SubTask("Сабтаск 1", "Описание 1", epic1.getId(), TaskStatus.NEW);
         SubTask subTask2 = new SubTask("Сабтаск 2", "Описание 2", epic1.getId(), TaskStatus.NEW);
+        manager.addSubTask(subTask1);
+        manager.addSubTask(subTask2);
         System.out.println("Файл после сохранения: " + Files.readString(file.toPath()));
 
         FileBackedTaskManager loaded = FileBackedTaskManager.loadFromFile(file);

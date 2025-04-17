@@ -30,6 +30,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 if (line.isEmpty()) {
                     continue;
                 }
+
                 Task task = fromString(line);
                 int taskId = task.getId();
 
@@ -114,34 +115,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void save() {
-        Collection<Task> taskValues = tasks.values();
-        Collection<Epic> epicValues = epics.values();
-        Collection<SubTask> subTaskValues = subTasks.values();
-        for (Task task : taskValues) {
-
-            String taskAsString = toString(task);
-            writeStringToFile(taskAsString);
-        }
-        for (Epic epic : epicValues) {
-            String epicAsString = toString(epic);
-            writeStringToFile(epicAsString);
-        }
-        for (SubTask subTask : subTaskValues) {
-            String subTaskAsString = toString(subTask);
-            writeStringToFile(subTaskAsString);
-        }
-    }
-
-    private void writeStringToFile(String taskAsString) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write("id,type,name,status,description,epic");
+
+            for (Task task : tasks.values()) {
+                writer.write(toString(task));
+            }
+            for (Epic epic : epics.values()) {
+                writer.write(toString(epic));
+            }
+            for (SubTask subTask : subTasks.values()) {
+                writer.write(toString(subTask));
+            }
+
         } catch (IOException e) {
             String errorMessage = "Ошибка при сохранении в файл" + e.getMessage();
             System.out.println(errorMessage);
             throw new ManagerSaveException(errorMessage);
         }
     }
-
 
     @Override
     public Task addTask(Task task) {
