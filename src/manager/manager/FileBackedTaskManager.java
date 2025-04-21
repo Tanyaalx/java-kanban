@@ -119,13 +119,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             writer.write("id,type,name,status,description,epic");
 
             for (Task task : tasks.values()) {
-                writer.write(toString(task));
+                writer.write("\n" + toString(task));
             }
             for (Epic epic : epics.values()) {
-                writer.write(toString(epic));
+                writer.write("\n" + toString(epic));
             }
             for (SubTask subTask : subTasks.values()) {
-                writer.write(toString(subTask));
+                writer.write("\n" + toString(subTask));
             }
 
         } catch (IOException e) {
