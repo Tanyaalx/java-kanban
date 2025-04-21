@@ -46,5 +46,6 @@ public interface TaskManager {
 
     void updateSubTasks(SubTask subTask);
 
+    ArrayList<SubTask> getAllSubtasks();
 
 }
