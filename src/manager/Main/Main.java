@@ -3,6 +3,7 @@ package manager.Main;
 import manager.manager.HistoryManager;
 import manager.manager.InMemoryTaskManager;
 import manager.manager.Managers;
+import manager.manager.TaskManager;
 import manager.tasks.Epic;
 import manager.tasks.SubTask;
 import manager.tasks.Task;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        TaskManager taskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("Задача 1", "Описание 1", TaskStatus.NEW);
         Task task2 = new Task("Задача 2", "Описание 2", TaskStatus.IN_PROGRESS);
@@ -92,7 +93,7 @@ public class Main {
         }
 
         task1.setDescription("Новое описание задачи 1");
-        task1.setStatus(TaskStatus.IN_PROGRESS);
+        task1.setStatus(TaskStatus.DONE);
         taskManager.updateTask(task1);
 
         taskManager.deleteTaskById(task2.getId());

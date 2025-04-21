@@ -54,7 +54,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return fileBackedTaskManager;
     }
 
-    public String toString(Task task) {
+    public static String toString(Task task) {
         return String.format("%d,%s,%s,%s,%s,%s",
                 task.getId(),
                 task.getType(),
@@ -137,9 +137,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public Task addTask(Task task) {
-        Task createdTask = super.addTask(task);
+        super.addTask(task);
         save();
-        return createdTask;
+        return task;
     }
 
     @Override
